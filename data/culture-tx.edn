@@ -1,0 +1,13 @@
+;; data/culture-tx.edn — DataScript tx-data derived from src/culture/facts.cljc
+;; `culture.facts/catalog` (ADR-2607171400 addendum 2, Wave 1 country-level).
+;; Same shape across every cloud-itonami-iso3166-* sibling. Do not hand-edit;
+;; regenerate from the catalog.
+
+[
+#:culture{:id "atg.dish.fungee", :name "Fungee", :country "ATG", :kind :dish, :summary "Caribbean cornmeal and okra dish known as fungee in the Leeward Islands, part of the national dishes of Antigua and Barbuda and of other Caribbean islands.", :url "https://en.wikipedia.org/wiki/Cou-cou", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "atg.dish.ducana", :name "Ducana", :country "ATG", :kind :dish, :summary "Sweet potato dumpling or pudding from Antigua, also made in other Caribbean islands such as Saint Kitts and Nevis and Saint Vincent and the Grenadines.", :url "https://en.wikipedia.org/wiki/Ducana", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "atg.product.antigua-black-pineapple", :name "Antigua black pineapple", :country "ATG", :kind :product, :summary "Pineapple variety grown on the southwestern coast of Antigua, the national fruit of Antigua and Barbuda.", :url "https://en.wikipedia.org/wiki/Antigua_black_pineapple", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "atg.festival.antigua-carnival", :name "Antigua Carnival", :country "ATG", :kind :festival, :summary "Thirteen-day festival of costumes, pageants and music held annually in late July through early August in Antigua, celebrating emancipation from slavery.", :url "https://en.wikipedia.org/wiki/Antigua_Carnival", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "atg.festival.antigua-sailing-week", :name "Antigua Sailing Week", :country "ATG", :kind :festival, :summary "Week-long yacht regatta held since 1967 in the waters off English Harbour, Antigua and Barbuda.", :url "https://en.wikipedia.org/wiki/Antigua_Sailing_Week", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+#:culture{:id "atg.heritage.nelsons-dockyard", :name "Nelson's Dockyard", :country "ATG", :kind :heritage, :summary "Restored Georgian-era naval dockyard in English Harbour, Antigua, a UNESCO World Heritage Site as part of the Antigua Naval Dockyard and Related Archaeological Sites.", :url "https://en.wikipedia.org/wiki/Nelson%27s_Dockyard", :url-provenance :wikipedia-en, :retrieved-at "2026-07-17"}
+]
