@@ -1,0 +1,48 @@
+(ns marketentry.registry-test
+  (:require [clojure.test :refer [deftest is testing]]
+            [marketentry.registry :as registry]))
+
+(deftest engagement-fee-recompute
+  (let [e {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12 :claimed-fee 860000.0}]
+    (is (== 860000.0 (registry/compute-engagement-fee e)))
+    (is (true? (registry/engagement-fee-matches-claim? e))))
+  (let [bad {:base-fee 500000 :monthly-rate 30000 :monitoring-months 12 :claimed-fee 999000.0}]
+    (is (false? (registry/engagement-fee-matches-claim? bad)))))
+
+(deftest register-draft-and-submit
+  (let [d (registry/register-draft "eng-1" "ATG" 0)
+        s (registry/register-submit "eng-1" "ATG" 0)]
+    (is (= "ATG-DFT-000000" (get d "draft_number")))
+    (is (= "ATG-SUB-000000" (get s "submit_number")))
+    (is (nil? (get-in d ["certificate" "proof"])))
+    (is (= "draft-unsigned" (get-in s ["certificate" "status"])))))
+
+(deftest register-requires-ids
+  (is (thrown? Exception (registry/register-draft "" "ATG" 0)))
+  (is (thrown? Exception (registry/register-submit "eng-1" "" 0))))
+
+(deftest required-vendor-class-tiers
+  (testing "below EC$50,000 -> Class 1"
+    (is (= 1 (registry/required-vendor-class 25000)))
+    (is (= 1 (registry/required-vendor-class 50000))))
+  (testing "between EC$50,000 and EC$1,000,000 -> Class 2"
+    (is (= 2 (registry/required-vendor-class 50000.01)))
+    (is (= 2 (registry/required-vendor-class 750000)))
+    (is (= 2 (registry/required-vendor-class 1000000))))
+  (testing "above EC$1,000,000 -> Class 3"
+    (is (= 3 (registry/required-vendor-class 1000000.01)))
+    (is (= 3 (registry/required-vendor-class 1500000))))
+  (testing "missing/zero contract value -> Class 1 (baseline)"
+    (is (= 1 (registry/required-vendor-class nil)))
+    (is (= 1 (registry/required-vendor-class 0)))))
+
+(deftest vendor-class-insufficient
+  (testing "registered class meets the required class -> not insufficient"
+    (is (false? (registry/vendor-class-insufficient? {:contract-value 750000 :vendor-class 2})))
+    (is (false? (registry/vendor-class-insufficient? {:contract-value 25000 :vendor-class 1}))))
+  (testing "a HIGHER registered class than required -> still not insufficient (classes are cumulative)"
+    (is (false? (registry/vendor-class-insufficient? {:contract-value 25000 :vendor-class 3}))))
+  (testing "registered class falls short of the required class -> insufficient"
+    (is (true? (registry/vendor-class-insufficient? {:contract-value 1500000 :vendor-class 2}))))
+  (testing "no vendor-class declared -> insufficient for anything above baseline"
+    (is (true? (registry/vendor-class-insufficient? {:contract-value 750000})))))
