@@ -43,8 +43,8 @@ compliance department.
 | Ops | `:engagement/intake` · `:jurisdiction/assess` · `:filing/draft` · `:filing/submit` |
 | Flagship HARD check | `vendor-class-insufficient` (tendersboard.gov.ag's tiered Class 1/2/3 vendor-registration classification, independently recomputed against the engagement's own declared contract value -- see `docs/adr/0001-architecture.md`) |
 | Compliance catalog | `src/statute/facts.kotoba` -- Companies Act 1995, Labour Code (CAP. 27), Data Protection Act 2013 |
-| Tests | `clojure -M:dev:test` |
-| Demo | `clojure -M:dev:run` |
+| Tests | `kbb -M:dev:test` |
+| Demo | `kbb -M:dev:run` |
 | Architecture ADR | [`docs/adr/0001-architecture.md`](docs/adr/0001-architecture.md) |
 
 `:filing/submit` is never in any phase's `:auto` set -- human sign-off
